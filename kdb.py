@@ -81,7 +81,7 @@ def start_server(manager, qconn):
             with open (BASE_DIR + "\port-data.json", 'w') as fp:
                 json.dump(port_data, fp)
         app.listen(port_number)
-    print("Listening on http://localhost:" + port_number)
+    print("Listening on http://localhost:", port_number)
     loop = tornado.ioloop.IOLoop.current()
     loop.start()
 
