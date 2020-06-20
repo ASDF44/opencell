@@ -7,6 +7,15 @@
  *
  */
 
+/******************************************************************************
+ *
+ * Copyright (c) 2018, the Perspective Authors.
+ *
+ * This file is part of the Perspective library, distributed under the terms of
+ * the Apache License 2.0.  The full license can be found in the LICENSE file.
+ *
+ */
+
 import perspective from "@finos/perspective";
 import {PerspectiveDockPanel, PerspectiveWidget} from "@finos/perspective-phosphor";
 import "@finos/perspective-phosphor/src/theme/material/index.less";
@@ -18,7 +27,9 @@ import {Widget} from "@phosphor/widgets";
 
 import "./style/index.less";
 
-const PY_SERVER = "localhost:8888";
+let json = require(process.cwd() + '\\port-data.json');
+
+const PY_SERVER = "localhost:" + json.port_number;
 const CONN = perspective.websocket(`ws://${PY_SERVER}/perspective`);
 
 async function get_kdb(query) {
