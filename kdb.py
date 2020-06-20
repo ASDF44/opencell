@@ -6,6 +6,8 @@ import json
 import datetime
 import random
 import string
+import sys
+import os
 
 import qpython.qconnection
 import perspective
@@ -52,8 +54,34 @@ def start_server(manager, qconn):
         (r"/kdb", KDBHandler, {"qconn": qconn, "manager": manager}),
         (r"/perspective", PerspectiveWebSocket, {"manager": manager})
     ])
-    app.listen(8888)
-    print("Listening on http://localhost:8888")
+    BASE_DIR = os.getcwd()
+    try:
+        port_number = sys.argv[-1]    
+
+        if port_number.isnumeric():
+            port_number = int(port_number)
+            port_data = {
+                'port_number' : port_number,
+            }
+            with open (BASE_DIR + "\port-data.json", 'w') as fp:
+                json.dump(port_data, fp)
+        else:
+            port_number = 8888
+            port_data = {
+                'port_number' : port_number,
+            }
+            with open (BASE_DIR + "\port-data.json", 'w') as fp:
+                json.dump(port_data, fp)
+
+    except:
+        port_number = 8888
+        port_data = {
+                'port_number' : port_number,
+            }
+            with open (BASE_DIR + "\port-data.json", 'w') as fp:
+                json.dump(port_data, fp)
+        app.listen(port_number)
+    print("Listening on http://localhost:" + port_number)
     loop = tornado.ioloop.IOLoop.current()
     loop.start()
 
